@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.0",
-    "@x402-solana/client": "^0.1.0",
+    "@x402-solana/client": "^0.1.1",
     "@solana/web3.js": "^1.95.0",
     "bs58": "^6.0.0",
     "dotenv": "^16.4.5"

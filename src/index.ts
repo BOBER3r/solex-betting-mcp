@@ -50,13 +50,19 @@ const x402Client = new X402Client({
   solanaRpcUrl: SOLANA_RPC_URL,
   walletPrivateKey: WALLET_PRIVATE_KEY,
   network: NETWORK as 'devnet' | 'mainnet-beta',
+  debug: true, // Enable detailed payment logging (fixed in v0.1.1)
 });
 
 // Log initialization
+const keypairForDisplay = Keypair.fromSecretKey(bs58.decode(WALLET_PRIVATE_KEY!));
+const walletAddress = keypairForDisplay.publicKey.toString();
+
 console.error('🚀 Sol Bets MCP Server');
 console.error(`📡 Network: ${NETWORK}`);
 console.error(`🔗 RPC: ${SOLANA_RPC_URL}`);
 console.error(`🌐 API: ${API_URL}`);
+console.error(`💳 Agent Wallet: ${walletAddress}`);
+console.error(`🔍 View transactions: https://explorer.solana.com/address/${walletAddress}?cluster=${NETWORK}`);
 
 // ============================================================================
 // Constants
@@ -500,6 +506,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     const data = await response.json();
     console.error(`✅ Tool completed successfully`);
+
+    // Log payment info if x402 payment was made
+    if (response.headers.get('x-payment-signature')) {
+      const txSignature = response.headers.get('x-payment-signature');
+      const paymentAmount = response.headers.get('x-payment-amount');
+      console.error(`💰 x402 Payment Made:`);
+      console.error(`   Amount: ${paymentAmount || 'unknown'} USDC`);
+      console.error(`   Signature: ${txSignature}`);
+      console.error(`   🔍 View: https://explorer.solana.com/tx/${txSignature}?cluster=${NETWORK}`);
+    }
 
     return {
       content: [
