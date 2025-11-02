@@ -77,10 +77,10 @@ npm run dev
      │<─────────────────┤                  │
      │                  │                  │
      │ 3. Create & send USDC tx            │
-     ├─────────────────────────────────────>│
+     ├────────────────────────────────────>│
      │                  │                  │
      │ 4. Tx confirmed  │                  │
-     │<─────────────────────────────────────┤
+     │<────────────────────────────────────┤
      │                  │                  │
      │ 5. Call with sig │                  │
      ├─────────────────>│                  │
@@ -518,11 +518,11 @@ See detailed examples in:
 
 ### Example Savings
 
-| Scenario | RPC Calls | Savings |
-|----------|-----------|---------|
-| Without cache | 3,000/day | - |
-| With 60% cache hit rate | 1,200/day | 60% |
-| With batching | 800/day | 73% |
+| Scenario                | RPC Calls | Savings |
+|-------------------------|-----------|---------|
+| Without cache           | 3,000/day | -       |
+| With 60% cache hit rate | 1,200/day | 60%     |
+| With batching           | 800/day   | 73%     |
 
 ## License
 
