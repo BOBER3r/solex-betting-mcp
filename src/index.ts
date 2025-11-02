@@ -287,7 +287,7 @@ const TOOLS = [
   },
   {
     name: 'place_bet',
-    description: 'Place a bet on a market. This executes the actual blockchain transaction. Requires wallet signature.',
+    description: 'Place a bet on a market. This executes the actual blockchain transaction. Requires wallet and transaction signature.',
     inputSchema: {
       type: 'object' as const,
       properties: {
@@ -303,16 +303,16 @@ const TOOLS = [
           type: 'boolean',
           description: 'true for YES bet, false for NO bet',
         },
-        betterAddress: {
+        wallet: {
           type: 'string',
-          description: 'The wallet placing the bet',
+          description: 'The wallet address placing the bet',
         },
-        mint: {
+        signature: {
           type: 'string',
-          description: 'Token mint address (SOL or USDC mint)',
+          description: 'The signed transaction signature',
         },
       },
-      required: ['marketId', 'amount', 'betYes', 'betterAddress', 'mint'],
+      required: ['marketId', 'amount', 'betYes', 'wallet', 'signature'],
     },
   },
   {
@@ -358,8 +358,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   try {
+    console.error(`\n${'='.repeat(60)}`);
     console.error(`🔧 Tool called: ${name}`);
     console.error(`📝 Arguments: ${JSON.stringify(args, null, 2)}`);
+    console.error(`⏰ Time: ${new Date().toISOString()}`);
+    console.error(`${'='.repeat(60)}\n`);
 
     let response;
 
@@ -446,28 +449,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'place_bet': {
-        const { marketId, amount, betYes, betterAddress, mint } = args as {
+        const { marketId, amount, betYes, wallet, signature } = args as {
           marketId: string;
           amount: string;
           betYes: boolean;
-          betterAddress: string;
-          mint: string;
+          wallet: string;
+          signature: string;
         };
 
-        // Convert amount to smallest unit (USDC has 6 decimals, SOL has 9)
-        // Determine decimals based on mint (simplified - adjust if needed)
-        const decimals = mint.toLowerCase().includes('usdc') ? 6 : 9;
-        const amountInSmallestUnit = toSmallestUnit(amount, decimals);
-
+        // Note: Amount is passed as-is (backend will handle conversion)
         response = await x402Client.fetch(`${API_URL}/api/betting/place-bet`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             marketId,
-            amount: amountInSmallestUnit,
+            amount,
             betYes,
-            betterAddress,
-            mint,
+            wallet,
+            signature,
           }),
         });
         break;
@@ -492,7 +491,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ message: response.statusText }));
-      console.error(`❌ API Error (${response.status}):`, errorData);
+      console.error(`\n❌ API Error (${response.status}):`, errorData);
+      console.error(`${'='.repeat(60)}\n`);
       return {
         content: [
           {
@@ -505,17 +505,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     const data = await response.json();
-    console.error(`✅ Tool completed successfully`);
+    console.error(`\n✅ Tool completed successfully`);
+    console.error(`📊 Response status: ${response.status}`);
+    console.error(`📦 Data size: ${JSON.stringify(data).length} bytes`);
 
-    // Log payment info if x402 payment was made
-    if (response.headers.get('x-payment-signature')) {
-      const txSignature = response.headers.get('x-payment-signature');
-      const paymentAmount = response.headers.get('x-payment-amount');
-      console.error(`💰 x402 Payment Made:`);
-      console.error(`   Amount: ${paymentAmount || 'unknown'} USDC`);
-      console.error(`   Signature: ${txSignature}`);
-      console.error(`   🔍 View: https://explorer.solana.com/tx/${txSignature}?cluster=${NETWORK}`);
+    // Check if x402 payment was made by looking at headers
+    const paymentSignature = response.headers.get('x-payment-signature');
+    const paymentAmount = response.headers.get('x-payment-amount');
+    const requestHeader = response.headers.get('x-payment');
+
+    if (paymentSignature || requestHeader) {
+      console.error(`\n💰 x402 PAYMENT DETECTED!`);
+      console.error(`${'='.repeat(60)}`);
+      if (paymentAmount) {
+        console.error(`   Amount: ${paymentAmount} USDC`);
+      }
+      if (paymentSignature) {
+        console.error(`   Signature: ${paymentSignature}`);
+        console.error(`   🔍 View: https://explorer.solana.com/tx/${paymentSignature}?cluster=${NETWORK}`);
+      }
+      console.error(`${'='.repeat(60)}\n`);
+    } else {
+      console.error(`ℹ️  No payment header detected (endpoint may be free or payment info not in headers)`);
     }
+
+    console.error(`${'='.repeat(60)}\n`);
 
     return {
       content: [
