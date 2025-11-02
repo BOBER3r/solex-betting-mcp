@@ -1,0 +1,43 @@
+{
+  "name": "sol-bets-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Sol Bets prediction markets with x402 micropayments on Solana",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "inspector": "./run-inspector.sh",
+    "inspector:manual": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "test": "echo \"Tests coming soon\" && exit 0"
+  },
+  "keywords": [
+    "mcp",
+    "solana",
+    "x402",
+    "betting",
+    "prediction-markets",
+    "usdc",
+    "micropayments"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "@x402-solana/client": "^0.1.0",
+    "@solana/web3.js": "^1.95.0",
+    "bs58": "^6.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.5.0"
+  }
+}

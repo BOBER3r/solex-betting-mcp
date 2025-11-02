@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "sol-bets": {
+      "command": "node",
+      "args": [
+        "/Users/bober4ik/WebstormProjects/solana-x402/betting-analytics-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "WALLET_PRIVATE_KEY": "YOUR_BASE58_PRIVATE_KEY",
+        "SOLANA_RPC_URL": "https://api.devnet.solana.com",
+        "NETWORK": "devnet",
+        "API_URL": "https://staging-api.solex.bet"
+      }
+    }
+  }
+}

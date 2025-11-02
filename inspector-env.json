@@ -1,0 +1,7 @@
+{
+  "WALLET_PRIVATE_KEY": "43sEWzoa94LDSuCfceq3MxKVEuywi345HaXmKPp7Nk7QmiAsEc7EpviTMUdyMXMHiju6wjYGqDHJ5WCMmzKwxQDo",
+  "SOLANA_RPC_URL": "https://api.devnet.solana.com",
+  "NETWORK": "devnet",
+  "API_URL": "https://sol-bets-v3-back-production.up.railway.app",
+  "LOG_LEVEL": "info"
+}
