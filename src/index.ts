@@ -22,6 +22,7 @@ import { X402Client } from '@x402-solana/client';
 import { Connection, Keypair, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import bs58 from 'bs58';
 import dotenv from 'dotenv';
+import { placeBetSol, placeBetUsdc } from './betting.js';
 
 // Load environment variables
 dotenv.config();
@@ -287,32 +288,33 @@ const TOOLS = [
   },
   {
     name: 'place_bet',
-    description: 'Place a bet on a market. This executes the actual blockchain transaction. Requires wallet and transaction signature.',
+    description: '🤖 AI AUTONOMOUS BETTING: Place a real bet on a market. The AI agent will create, sign, and submit the transaction to Solana. Use this when you have high confidence in a market opportunity.',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        marketId: {
+        marketAddress: {
           type: 'string',
-          description: 'The market ID',
+          description: 'The on-chain market address (from market data)',
+        },
+        marketId: {
+          type: 'number',
+          description: 'The market ID number (from market data)',
         },
         amount: {
           type: 'string',
-          description: 'Bet amount in SOL or USDC',
+          description: 'Bet amount in decimal units (e.g., "0.1" for 0.1 SOL or 0.1 USDC)',
         },
         betYes: {
           type: 'boolean',
-          description: 'true for YES bet, false for NO bet',
+          description: 'true to bet YES (outcome will happen), false to bet NO (outcome will not happen)',
         },
-        wallet: {
+        currencyType: {
           type: 'string',
-          description: 'The wallet address placing the bet',
-        },
-        signature: {
-          type: 'string',
-          description: 'The signed transaction signature',
+          enum: ['SOL', 'USDC'],
+          description: 'Currency to bet with (must match market currency)',
         },
       },
-      required: ['marketId', 'amount', 'betYes', 'wallet', 'signature'],
+      required: ['marketAddress', 'marketId', 'amount', 'betYes', 'currencyType'],
     },
   },
   {
@@ -449,27 +451,84 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'place_bet': {
-        const { marketId, amount, betYes, wallet, signature } = args as {
-          marketId: string;
+        const { marketAddress, marketId, amount, betYes, currencyType } = args as {
+          marketAddress: string;
+          marketId: number;
           amount: string;
           betYes: boolean;
-          wallet: string;
-          signature: string;
+          currencyType: 'SOL' | 'USDC';
         };
 
-        // Note: Amount is passed as-is (backend will handle conversion)
-        response = await x402Client.fetch(`${API_URL}/api/betting/place-bet`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            marketId,
-            amount,
-            betYes,
-            wallet,
-            signature,
-          }),
-        });
-        break;
+        console.error(`\n🤖 AI AGENT PLACING BET`);
+        console.error(`${'='.repeat(60)}`);
+        console.error(`   This is a REAL transaction!`);
+        console.error(`   Market: ${marketAddress}`);
+        console.error(`   Amount: ${amount} ${currencyType}`);
+        console.error(`   Side: ${betYes ? 'YES' : 'NO'}`);
+        console.error(`${'='.repeat(60)}\n`);
+
+        try {
+          const connection = new Connection(SOLANA_RPC_URL);
+          const wallet = Keypair.fromSecretKey(bs58.decode(WALLET_PRIVATE_KEY!));
+
+          let signature: string;
+
+          if (currencyType === 'SOL') {
+            // Convert amount to lamports
+            const amountLamports = (parseFloat(amount) * 1e9).toString();
+            signature = await placeBetSol(
+              connection,
+              wallet,
+              marketAddress,
+              marketId,
+              amountLamports,
+              betYes
+            );
+          } else {
+            // Convert amount to micro-USDC
+            const amountMicroUsdc = (parseFloat(amount) * 1e6).toString();
+            signature = await placeBetUsdc(
+              connection,
+              wallet,
+              marketAddress,
+              marketId,
+              amountMicroUsdc,
+              betYes
+            );
+          }
+
+          // Return success with signature
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify({
+                  success: true,
+                  signature,
+                  explorerUrl: `https://explorer.solana.com/tx/${signature}?cluster=${NETWORK}`,
+                  message: `Bet placed successfully! ${amount} ${currencyType} on ${betYes ? 'YES' : 'NO'}`,
+                }, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          console.error(`❌ Bet placement failed:`, errorMessage);
+
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify({
+                  success: false,
+                  error: errorMessage,
+                  message: 'Failed to place bet on Solana',
+                }, null, 2),
+              },
+            ],
+            isError: true,
+          };
+        }
       }
 
       case 'get_protocol_stats': {

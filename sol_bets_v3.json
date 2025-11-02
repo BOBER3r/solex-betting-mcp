@@ -1,0 +1,2587 @@
+{
+  "address": "4VqF8bf4SqsQdt9zxbSdxUGQYWjt9XmL6pxPdy7BRauF",
+  "metadata": {
+    "name": "sol_bets_v3",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "accept_authority",
+      "docs": [
+        "Transfer authority to new address (2-step process for security)",
+        "Step 2: New authority accepts transfer"
+      ],
+      "discriminator": [
+        107,
+        86,
+        198,
+        91,
+        33,
+        12,
+        107,
+        160
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "add_whitelisted_oracle",
+      "discriminator": [
+        248,
+        152,
+        176,
+        204,
+        124,
+        111,
+        48,
+        78
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "oracle"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_winnings_sol",
+      "discriminator": [
+        64,
+        158,
+        207,
+        116,
+        128,
+        129,
+        169,
+        76
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_position",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  115,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_winnings_usdc",
+      "discriminator": [
+        41,
+        36,
+        35,
+        177,
+        129,
+        46,
+        149,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_position",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  115,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "market_usdc_vault",
+          "docs": [
+            "Market USDC vault"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  100,
+                  99
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_token_account",
+          "writable": true
+        },
+        {
+          "name": "creator_token_account",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_market",
+      "discriminator": [
+        103,
+        226,
+        97,
+        235,
+        200,
+        188,
+        251,
+        254
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "protocol.market_count",
+                "account": "Protocol"
+              }
+            ]
+          }
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "oracle"
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description_uri",
+          "type": "string"
+        },
+        {
+          "name": "image_uri",
+          "type": "string"
+        },
+        {
+          "name": "betting_ends",
+          "type": "i64"
+        },
+        {
+          "name": "resolution_time",
+          "type": "i64"
+        },
+        {
+          "name": "currency_type",
+          "type": {
+            "defined": {
+              "name": "CurrencyType"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "get_market_stats",
+      "discriminator": [
+        127,
+        186,
+        110,
+        238,
+        14,
+        56,
+        208,
+        236
+      ],
+      "accounts": [
+        {
+          "name": "market"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "MarketStats"
+        }
+      }
+    },
+    {
+      "name": "get_protocol_stats",
+      "discriminator": [
+        95,
+        236,
+        228,
+        195,
+        37,
+        234,
+        171,
+        163
+      ],
+      "accounts": [
+        {
+          "name": "protocol"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "ProtocolStats"
+        }
+      }
+    },
+    {
+      "name": "get_user_position_stats",
+      "discriminator": [
+        153,
+        88,
+        201,
+        29,
+        39,
+        130,
+        98,
+        235
+      ],
+      "accounts": [
+        {
+          "name": "market"
+        },
+        {
+          "name": "user_position"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "UserPositionStats"
+        }
+      }
+    },
+    {
+      "name": "initialize_protocol",
+      "discriminator": [
+        188,
+        233,
+        252,
+        106,
+        134,
+        146,
+        202,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pause_protocol",
+      "discriminator": [
+        144,
+        95,
+        0,
+        107,
+        119,
+        39,
+        248,
+        141
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "place_bet_sol",
+      "discriminator": [
+        137,
+        137,
+        247,
+        253,
+        233,
+        243,
+        48,
+        170
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_position",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  115,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "bet_yes",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "place_bet_usdc",
+      "discriminator": [
+        89,
+        186,
+        227,
+        77,
+        151,
+        206,
+        67,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_position",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  115,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "market_usdc_vault",
+          "docs": [
+            "Market USDC vault"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  100,
+                  99
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "bet_yes",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "remove_whitelisted_oracle",
+      "discriminator": [
+        47,
+        210,
+        20,
+        192,
+        122,
+        234,
+        116,
+        29
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "oracle"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resolve_market",
+      "discriminator": [
+        155,
+        23,
+        80,
+        173,
+        46,
+        74,
+        23,
+        239
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "oracle",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "resolve_market_by_authority",
+      "docs": [
+        "Emergency resolution by protocol authority",
+        "Can only be called if oracle fails to resolve within 24 hours"
+      ],
+      "discriminator": [
+        78,
+        149,
+        206,
+        213,
+        147,
+        152,
+        205,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "Protocol authority - only they can perform emergency resolution"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "transfer_authority",
+      "docs": [
+        "Transfer authority to new address (2-step process for security)",
+        "Step 1: Current authority initiates transfer"
+      ],
+      "discriminator": [
+        48,
+        169,
+        76,
+        72,
+        229,
+        180,
+        55,
+        161
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "current_authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "unpause_protocol",
+      "discriminator": [
+        183,
+        154,
+        5,
+        183,
+        105,
+        76,
+        87,
+        18
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_oracle_fee",
+      "discriminator": [
+        134,
+        220,
+        11,
+        9,
+        91,
+        173,
+        174,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  116,
+                  111,
+                  99,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_fee",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "discriminator": [
+        219,
+        190,
+        213,
+        55,
+        0,
+        227,
+        198,
+        154
+      ]
+    },
+    {
+      "name": "Protocol",
+      "discriminator": [
+        45,
+        39,
+        101,
+        43,
+        115,
+        72,
+        131,
+        40
+      ]
+    },
+    {
+      "name": "UserPosition",
+      "discriminator": [
+        251,
+        248,
+        209,
+        245,
+        83,
+        234,
+        17,
+        27
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AuthorityTransferInitiated",
+      "discriminator": [
+        194,
+        206,
+        0,
+        50,
+        236,
+        124,
+        236,
+        147
+      ]
+    },
+    {
+      "name": "AuthorityTransferred",
+      "discriminator": [
+        245,
+        109,
+        179,
+        54,
+        135,
+        92,
+        22,
+        64
+      ]
+    },
+    {
+      "name": "BetPlaced",
+      "discriminator": [
+        88,
+        88,
+        145,
+        226,
+        126,
+        206,
+        32,
+        0
+      ]
+    },
+    {
+      "name": "FeesDistributed",
+      "discriminator": [
+        209,
+        24,
+        174,
+        200,
+        236,
+        90,
+        154,
+        55
+      ]
+    },
+    {
+      "name": "MarketCreated",
+      "discriminator": [
+        88,
+        184,
+        130,
+        231,
+        226,
+        84,
+        6,
+        58
+      ]
+    },
+    {
+      "name": "MarketNeedsRefund",
+      "discriminator": [
+        58,
+        225,
+        123,
+        168,
+        4,
+        26,
+        96,
+        246
+      ]
+    },
+    {
+      "name": "MarketResolved",
+      "discriminator": [
+        89,
+        67,
+        230,
+        95,
+        143,
+        106,
+        199,
+        202
+      ]
+    },
+    {
+      "name": "OracleFeeUpdated",
+      "discriminator": [
+        91,
+        218,
+        229,
+        103,
+        173,
+        248,
+        48,
+        146
+      ]
+    },
+    {
+      "name": "OracleRemovedFromWhitelist",
+      "discriminator": [
+        188,
+        18,
+        57,
+        237,
+        32,
+        53,
+        126,
+        97
+      ]
+    },
+    {
+      "name": "OracleWhitelisted",
+      "discriminator": [
+        235,
+        177,
+        68,
+        134,
+        115,
+        183,
+        106,
+        194
+      ]
+    },
+    {
+      "name": "ProtocolInitialized",
+      "discriminator": [
+        173,
+        122,
+        168,
+        254,
+        9,
+        118,
+        76,
+        132
+      ]
+    },
+    {
+      "name": "ProtocolPaused",
+      "discriminator": [
+        35,
+        111,
+        245,
+        138,
+        237,
+        199,
+        79,
+        223
+      ]
+    },
+    {
+      "name": "ProtocolUnpaused",
+      "discriminator": [
+        248,
+        204,
+        112,
+        239,
+        72,
+        67,
+        127,
+        216
+      ]
+    },
+    {
+      "name": "WinningsClaimed",
+      "discriminator": [
+        187,
+        184,
+        29,
+        196,
+        54,
+        117,
+        70,
+        150
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ProtocolPaused",
+      "msg": "Protocol is currently paused"
+    },
+    {
+      "code": 6001,
+      "name": "TitleTooLong",
+      "msg": "Market title is too long"
+    },
+    {
+      "code": 6002,
+      "name": "UriTooLong",
+      "msg": "URI is too long"
+    },
+    {
+      "code": 6003,
+      "name": "BettingPeriodTooShort",
+      "msg": "Betting period is too short"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidResolutionTime",
+      "msg": "Invalid resolution time"
+    },
+    {
+      "code": 6005,
+      "name": "BettingEnded",
+      "msg": "Betting has ended for this market"
+    },
+    {
+      "code": 6006,
+      "name": "MarketAlreadyResolved",
+      "msg": "Market is already resolved"
+    },
+    {
+      "code": 6007,
+      "name": "MarketNotResolved",
+      "msg": "Market is not resolved yet"
+    },
+    {
+      "code": 6008,
+      "name": "TooEarlyToResolve",
+      "msg": "Cannot resolve market before resolution time"
+    },
+    {
+      "code": 6009,
+      "name": "ResolutionExpired",
+      "msg": "Resolution grace period has expired"
+    },
+    {
+      "code": 6010,
+      "name": "OracleTimeoutNotReached",
+      "msg": "Oracle timeout not reached - wait 24 hours before authority can resolve"
+    },
+    {
+      "code": 6011,
+      "name": "BetTooSmall",
+      "msg": "Bet amount is below minimum"
+    },
+    {
+      "code": 6012,
+      "name": "BetTooLarge",
+      "msg": "Bet amount exceeds maximum"
+    },
+    {
+      "code": 6013,
+      "name": "AlreadyClaimed",
+      "msg": "User has already claimed winnings"
+    },
+    {
+      "code": 6014,
+      "name": "NotAWinner",
+      "msg": "User did not win"
+    },
+    {
+      "code": 6015,
+      "name": "NoWinningBets",
+      "msg": "No bets placed on winning side"
+    },
+    {
+      "code": 6016,
+      "name": "UnauthorizedOracle",
+      "msg": "Unauthorized oracle"
+    },
+    {
+      "code": 6017,
+      "name": "UnauthorizedAuthority",
+      "msg": "Unauthorized authority"
+    },
+    {
+      "code": 6018,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds"
+    },
+    {
+      "code": 6019,
+      "name": "IntegerOverflow",
+      "msg": "Integer overflow"
+    },
+    {
+      "code": 6020,
+      "name": "NeedsRefund",
+      "msg": "Market needs refund - only one side has bets"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidFees",
+      "msg": "Invalid fee configuration"
+    },
+    {
+      "code": 6022,
+      "name": "WrongCurrencyType",
+      "msg": "Wrong currency type for this market"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidUsdcMint",
+      "msg": "Invalid USDC mint - must use official USDC mint"
+    },
+    {
+      "code": 6024,
+      "name": "NoPendingAuthority",
+      "msg": "No pending authority transfer"
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityTransferInitiated",
+      "docs": [
+        "Emitted when authority transfer is initiated"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "pending_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityTransferred",
+      "docs": [
+        "Emitted when authority transfer is completed"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetPlaced",
+      "docs": [
+        "Emitted when a bet is placed"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "net_amount",
+            "type": "u64"
+          },
+          {
+            "name": "bet_yes",
+            "type": "bool"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "user_yes_total",
+            "type": "u64"
+          },
+          {
+            "name": "user_no_total",
+            "type": "u64"
+          },
+          {
+            "name": "new_yes_pool",
+            "type": "u64"
+          },
+          {
+            "name": "new_no_pool",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CurrencyType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "SOL"
+          },
+          {
+            "name": "USDC"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeesDistributed",
+      "docs": [
+        "Emitted when fees are distributed"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator_fee",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fee",
+            "type": "u64"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "description_uri",
+            "type": "string"
+          },
+          {
+            "name": "image_uri",
+            "type": "string"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "yes_pool",
+            "type": "u64"
+          },
+          {
+            "name": "no_pool",
+            "type": "u64"
+          },
+          {
+            "name": "total_pool",
+            "type": "u64"
+          },
+          {
+            "name": "betting_ends",
+            "type": "i64"
+          },
+          {
+            "name": "resolution_time",
+            "type": "i64"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "is_resolved",
+            "type": "bool"
+          },
+          {
+            "name": "creator_fees",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fees",
+            "type": "u64"
+          },
+          {
+            "name": "fees_distributed",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketCreated",
+      "docs": [
+        "Emitted when a new market is created"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "betting_ends",
+            "type": "i64"
+          },
+          {
+            "name": "resolution_time",
+            "type": "i64"
+          },
+          {
+            "name": "market_creation_fee_paid",
+            "type": "u64"
+          },
+          {
+            "name": "used_whitelisted_oracle",
+            "type": "bool"
+          },
+          {
+            "name": "oracle_fee_paid",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketNeedsRefund",
+      "docs": [
+        "Emitted when market needs refund (only one side had bets)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "refund_pool",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketResolved",
+      "docs": [
+        "Emitted when market is resolved"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome",
+            "type": "bool"
+          },
+          {
+            "name": "winning_pool",
+            "type": "u64"
+          },
+          {
+            "name": "losing_pool",
+            "type": "u64"
+          },
+          {
+            "name": "total_pool",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketStats",
+      "docs": [
+        "Market statistics for frontend display"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "description_uri",
+            "type": "string"
+          },
+          {
+            "name": "image_uri",
+            "type": "string"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "total_pool",
+            "type": "u64"
+          },
+          {
+            "name": "yes_pool",
+            "type": "u64"
+          },
+          {
+            "name": "no_pool",
+            "type": "u64"
+          },
+          {
+            "name": "yes_odds",
+            "type": "f64"
+          },
+          {
+            "name": "no_odds",
+            "type": "f64"
+          },
+          {
+            "name": "betting_ends",
+            "type": "i64"
+          },
+          {
+            "name": "resolution_time",
+            "type": "i64"
+          },
+          {
+            "name": "is_betting_open",
+            "type": "bool"
+          },
+          {
+            "name": "can_resolve",
+            "type": "bool"
+          },
+          {
+            "name": "is_resolved",
+            "type": "bool"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "creator_fees",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fees",
+            "type": "u64"
+          },
+          {
+            "name": "fees_distributed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleFeeUpdated",
+      "docs": [
+        "Emitted when oracle fee is updated"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_fee",
+            "type": "u64"
+          },
+          {
+            "name": "new_fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleRemovedFromWhitelist",
+      "docs": [
+        "Emitted when an oracle is removed from whitelist"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "remaining_whitelisted",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleWhitelisted",
+      "docs": [
+        "Emitted when an oracle is whitelisted"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_whitelisted",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Protocol",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "market_count",
+            "type": "u64"
+          },
+          {
+            "name": "total_volume_sol",
+            "type": "u64"
+          },
+          {
+            "name": "total_volume_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected_sol",
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "creator_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "is_paused",
+            "type": "bool"
+          },
+          {
+            "name": "whitelisted_oracles",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "oracle_fee",
+            "type": "u64"
+          },
+          {
+            "name": "total_oracle_fees_collected",
+            "type": "u64"
+          },
+          {
+            "name": "total_market_creation_fees_collected",
+            "type": "u64"
+          },
+          {
+            "name": "pending_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolInitialized",
+      "docs": [
+        "Emitted when a new protocol is initialized"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolPaused",
+      "docs": [
+        "Emitted when protocol is paused"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolStats",
+      "docs": [
+        "Protocol statistics for frontend display"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "market_count",
+            "type": "u64"
+          },
+          {
+            "name": "total_volume_sol",
+            "type": "u64"
+          },
+          {
+            "name": "total_volume_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected_sol",
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "total_oracle_fees_collected",
+            "type": "u64"
+          },
+          {
+            "name": "creator_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "oracle_fee",
+            "type": "u64"
+          },
+          {
+            "name": "is_paused",
+            "type": "bool"
+          },
+          {
+            "name": "whitelisted_oracles_count",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolUnpaused",
+      "docs": [
+        "Emitted when protocol is unpaused"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "yes_amount",
+            "type": "u64"
+          },
+          {
+            "name": "no_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_deposited",
+            "type": "u64"
+          },
+          {
+            "name": "bet_count",
+            "type": "u32"
+          },
+          {
+            "name": "last_bet_time",
+            "type": "i64"
+          },
+          {
+            "name": "first_bet_time",
+            "type": "i64"
+          },
+          {
+            "name": "claimed",
+            "type": "bool"
+          },
+          {
+            "name": "payout_amount",
+            "type": "u64"
+          },
+          {
+            "name": "position_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPositionStats",
+      "docs": [
+        "User position details for frontend display"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "yes_amount",
+            "type": "u64"
+          },
+          {
+            "name": "no_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_deposited",
+            "type": "u64"
+          },
+          {
+            "name": "net_position",
+            "type": "i64"
+          },
+          {
+            "name": "potential_payout_yes",
+            "type": "u64"
+          },
+          {
+            "name": "potential_payout_no",
+            "type": "u64"
+          },
+          {
+            "name": "claimed",
+            "type": "bool"
+          },
+          {
+            "name": "payout_amount",
+            "type": "u64"
+          },
+          {
+            "name": "first_bet_time",
+            "type": "i64"
+          },
+          {
+            "name": "last_bet_time",
+            "type": "i64"
+          },
+          {
+            "name": "bet_count",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WinningsClaimed",
+      "docs": [
+        "Emitted when winnings are claimed"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market_id",
+            "type": "u64"
+          },
+          {
+            "name": "market_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "payout_amount",
+            "type": "u64"
+          },
+          {
+            "name": "currency_type",
+            "type": {
+              "defined": {
+                "name": "CurrencyType"
+              }
+            }
+          },
+          {
+            "name": "user_yes_amount",
+            "type": "u64"
+          },
+          {
+            "name": "user_no_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
