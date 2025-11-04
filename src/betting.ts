@@ -288,3 +288,117 @@ export async function placeBetUsdc(
     throw error;
   }
 }
+
+/**
+ * Create a new prediction market on Solana
+ *
+ * @param connection - Solana connection
+ * @param wallet - Keypair of the creator
+ * @param title - Market question (max 128 chars)
+ * @param descriptionUri - IPFS URI for description
+ * @param imageUri - IPFS URI for image
+ * @param bettingEnds - Unix timestamp when betting closes
+ * @param resolutionTime - Unix timestamp when market should be resolved
+ * @param oracleAddress - Public key of oracle
+ * @param currencyType - SOL or USDC
+ * @returns Transaction signature and market address
+ */
+export async function createMarket(
+  connection: Connection,
+  wallet: Keypair,
+  title: string,
+  descriptionUri: string,
+  imageUri: string,
+  bettingEnds: number,
+  resolutionTime: number,
+  oracleAddress: string,
+  currencyType: 'SOL' | 'USDC'
+): Promise<{ signature: TransactionSignature; marketAddress: string; marketId: string }> {
+  console.error(`\n🏗️ CREATING MARKET ON SOLANA`);
+  console.error(`${'='.repeat(60)}`);
+  console.error(`   Title: ${title}`);
+  console.error(`   Currency: ${currencyType}`);
+  console.error(`   Betting Ends: ${new Date(bettingEnds * 1000).toISOString()}`);
+  console.error(`   Resolution: ${new Date(resolutionTime * 1000).toISOString()}`);
+  console.error(`   Oracle: ${oracleAddress}`);
+  console.error(`   Creator: ${wallet.publicKey.toString()}`);
+  console.error(`${'='.repeat(60)}\n`);
+
+  // Create Anchor provider and program
+  const provider = new AnchorProvider(
+    connection,
+    new Wallet(wallet),
+    { commitment: 'confirmed' }
+  );
+  const program = new Program(IDL as any, provider);
+
+  try {
+    // Derive protocol PDA
+    const [protocolPda] = getProtocolPda();
+
+    // Fetch protocol account to get market count
+    console.error(`📍 Fetching protocol account...`);
+    const protocolAccount = await (program.account as any).protocol.fetch(protocolPda);
+    const marketCount = protocolAccount.marketCount;
+    const treasuryPda = protocolAccount.treasury;
+
+    console.error(`   Current market count: ${marketCount.toString()}`);
+    console.error(`   Treasury: ${treasuryPda.toString()}`);
+
+    // Derive market PDA
+    const [marketPda] = getMarketPda(marketCount);
+    console.error(`   New market PDA: ${marketPda.toString()}\n`);
+
+    // Convert timestamps to BN
+    const bettingEndsBN = new BN(bettingEnds);
+    const resolutionTimeBN = new BN(resolutionTime);
+
+    // Convert oracle address to PublicKey
+    const oraclePubkey = new PublicKey(oracleAddress);
+
+    // Determine currency type enum
+    const currencyEnum = currencyType === 'SOL' ? { sol: {} } : { usdc: {} };
+
+    // Execute the instruction
+    console.error(`📤 Sending create market transaction...`);
+    const signature = await program.methods
+      .createMarket(
+        title,
+        descriptionUri,
+        imageUri,
+        bettingEndsBN,
+        resolutionTimeBN,
+        currencyEnum
+      )
+      .accounts({
+        protocol: protocolPda,
+        market: marketPda,
+        creator: wallet.publicKey,
+        oracle: oraclePubkey,
+        treasury: treasuryPda,
+        systemProgram: SystemProgram.programId,
+        clock: SYSVAR_CLOCK_PUBKEY,
+      })
+      .rpc();
+
+    console.error(`\n✅ MARKET CREATED SUCCESSFULLY!`);
+    console.error(`${'='.repeat(60)}`);
+    console.error(`   Signature: ${signature}`);
+    console.error(`   Market ID: ${marketCount.toString()}`);
+    console.error(`   Market Address: ${marketPda.toString()}`);
+    console.error(`   🔍 View: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    console.error(`${'='.repeat(60)}\n`);
+
+    return {
+      signature,
+      marketAddress: marketPda.toString(),
+      marketId: marketCount.toString(),
+    };
+  } catch (error) {
+    console.error(`\n❌ MARKET CREATION FAILED`);
+    console.error(`${'='.repeat(60)}`);
+    console.error(`   Error: ${error}`);
+    console.error(`${'='.repeat(60)}\n`);
+    throw error;
+  }
+}
